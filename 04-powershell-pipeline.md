@@ -1,4 +1,4 @@
-# 4. Using the PowerShell Pipeline
+# 4. PowerShell Pipeline
 
 ## Pipe output to files
 

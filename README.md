@@ -1,11 +1,12 @@
 # PowerShell Notes
 
-## 4. Using the PowerShell Pipeline
+## 4. PowerShell Pipeline
 
-- Pipe output to files
+Keywords: (Placeholder)
 
 ## 5. PSProviders and PSDrives
 
-- PSProviders and PSDrives
+Keywords: `Get-PSProvider`, `New-PSDrive`, `Get-PSDrive`, `Get-ItemPropertyValue`, `Set-ItemProperty`
 
-- FileSystem Provider
+## 6. Querying systems using WMI and CIM
+

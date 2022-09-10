@@ -1,0 +1,1 @@
+# 6. Querying systems using WMI and CIM
