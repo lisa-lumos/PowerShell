@@ -6,10 +6,23 @@ Variable is a named memory location. Instead of using a hex code to refer to tha
 
 Be consistent in your naming and casing of your variables. Avoid space in variable name. 
 
+To create an ad-hoc variable: 
+```shell
+> $computers = 'loncl1', 'londc1', 'lonsvr1'
+> $computers
+loncl1
+londc1
+lonsvr1
+```
 
+If restart PowerShell, the variable will be gone. 
 
-
-
+A variable can also be a query result:
+```shell
+> $users = Get-ADUser -Filter *
+> $users
+(will show all user objects)
+```
 
 
 

@@ -27,7 +27,7 @@ Get-WMIObject -query "Select * From Win32_Service Where Name LIKE '[^a-f]%'"
 ```
 
 ## Working with Registry using WMI
-
+skip
 
 
 
