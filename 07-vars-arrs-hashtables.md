@@ -22,12 +22,36 @@ A variable can also be a query result:
 > $users = Get-ADUser -Filter *
 > $users
 (will show all user objects)
+> $users.count
+(will return num of users in this $users variable)
 ```
 
-
-
-
-
+## Using Variables and Strings
+Most of the time, PS doesn't care about whether you use single quotes or double quotes to enclose a string. But if there is var inside double quotes, PS knows it is a variable, while if the var is in side single quote, PS will treat var name as a plain string. 
+```shell
+> "This is me"
+This is me
+> 'This is me'
+This is me
+> $val = 'string'
+> "This is a $val"
+This is a string
+> 'This is a $val'
+This is a $val
+```
+If in double quotes, you want the first value to be string literal, while another value to be replaced by var value, we can use backtick sign to skip it, so the $ after it is just a plain $. backtick before an n creates a new line. backtick before a t creates a tab. backtick is also the line continuation character in PS to break up a long line. 
+```shell
+> $val = 'string'
+> "The value of $val is $val"
+The value of string is string
+> "The value of `$val is $val"
+The value of $val is string
+```
+sub expression inside double quotes, or use concatenation:
+```shell
+> "There are ($users.count) users in the variable"
+> "There are " + $users.count + " users in the variable"
+```
 
 
 
