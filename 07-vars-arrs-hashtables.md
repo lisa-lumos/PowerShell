@@ -53,10 +53,58 @@ sub expression inside double quotes, or use concatenation:
 > "There are " + $users.count + " users in the variable"
 ```
 
+## Casting Variable Types
+Declare what type of data is stored in the variable so it is represented properly. PowerShell is a strongly typed language that behaves as if it is type-less. Casting is considered as a best practice. Common types are:
+- [string]
+- [int]
+- [double]
+- [bool]
+- [datetime]
+- Type Operators (-is, -isnot, -as)
 
+```shell
+> [string]$computerName
+> $computerName = 'LON-DC1' # single quotes indicate we are passing a string
+> $computerName = 1234 # because this var is a string type, so 1234 is passed as a str
 
+> $computerName.GetType() # return the data type of this variable
+string 
 
+> $num = 1234 # assign 1234 to a var that has no casting
+> $num.GetType()
+Int32
 
+> [double]$num2 = 12.34567
+> $num2
+12.34567
+
+> $num2 | Get-Member
+TypeName: System.Double
+...
+
+> $num2 -as [int] # use the as type operator to convert type temporarily
+12
+
+> [datetime]"1/1/2022" # it got other properties because it is now a datetime type
+Saturday, January 1, 2022 12:00:00 AM
+
+> [datetime]"1/1/2022" | Get-Member
+TypeName: System.DateTime
+...
+
+> $computers = 'LONCL1' # with out casting, computers var is a string only
+> $computers += 'LONDC1'
+> $computers
+LONCL1LONDC1
+
+> [string[]]$computers = 'LONCL1' # cast it as a string list, then can append elem to it
+> $computers += 'LONDC1'
+> $computers
+LONCL1
+LONDC1
+```
+
+## Variable properties and methods
 
 
 
