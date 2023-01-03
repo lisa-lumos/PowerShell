@@ -105,9 +105,15 @@ LONDC1
 ```
 
 ## Variable properties and methods
-
-
-
+To work with individual properties and methods inside a variable:
+```shell
+> $users | Get-Member # Get-Member shows you what is in the variable
+> $users. # use Tab key to loop over properties of a variable
+> $users.surname # users is not an object, it is a collection of objects, but PW3 allow to fetch properties out of each object in a collection
+> $nic = Get-WMIObject Win32_NetworkAdapter -Filter "PhysicalAdapter=$true"
+> $nic # returns adapters
+> $nic | Select * # show every property in the pipeline
+```
 
 
 
