@@ -115,6 +115,7 @@ To work with individual properties and methods inside a variable:
 > $nic | Select * # show every property in the pipeline
 ```
 
+## Strings
 
 
 
