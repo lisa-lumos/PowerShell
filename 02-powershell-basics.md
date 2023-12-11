@@ -21,8 +21,11 @@ $PSVersionTable   # automatic variable, shows version of PS running
 The core version of the PS, will install on Linux, MacOS, etc. It will continue to be developed and maintained for years to come. 
 
 ## Command Line Fundamentals
+You can configure the look and feel of PS console, through the properties of the console window. 
 
+Also transparency, etc. 
 
+`Start-Transcript` cmd will automatically log all commands/results, as well as context in cur session into a txt file, for your future reference. `Stop-Transcript` cmd will stop the logging; closing the console works in the same way. These commands can be added to your PS profile to execute automatically. 
 
 
 ## Working with Keyboard Shortcuts
