@@ -41,7 +41,11 @@ Control + R will do a backward search through your command history.
 `Get-PSReadLineKeyHandler` command will show all the existing shortcut key mappings. 
 
 ## Introduction to Windows Terminal
+The new Windows Terminal has more functionalities than the PS default terminal. You can download it from the Windows App Store. 
 
+I allows multiple versions of PS running, with separate environments. It has different versions of shell, such as PS core, Azure Cloud Shell, Ubuntu (if you have the Windows subsystem for Linux installed), etc. 
+
+You can also split the window into separate panes. 
 
 ## Understanding Cmdlet Structure
 
