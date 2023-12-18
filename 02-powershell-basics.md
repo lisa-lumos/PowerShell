@@ -27,9 +27,18 @@ Also transparency, etc.
 
 `Start-Transcript` cmd will automatically log all commands/results, as well as context in cur session into a txt file, for your future reference. `Stop-Transcript` cmd will stop the logging; closing the console works in the same way. These commands can be added to your PS profile to execute automatically. 
 
-
 ## Working with Keyboard Shortcuts
+up/down arrow key to scroll through history. This history is persistent, even if you close it and relaunch. 
 
+Tab for auto-complete. Powershell is case-insensitive. But using cases can make the command easier to read. More tabs to switch between matched commands. Shift-tab to go back in direction. 
+
+When using parameters in a command, with dash, tab can cycle through all options for parameter names. Sometimes, tab can even auto-fill parameter values. e.g.: `Get-Process -Name ApplicationFrameHost`. 
+
+Control + Space will show you all the possible values. And you can use the arrow keys to navigate among them. 
+
+Control + R will do a backward search through your command history. 
+
+`Get-PSReadLineKeyHandler` command will show all the existing shortcut key mappings. 
 
 ## Introduction to Windows Terminal
 
