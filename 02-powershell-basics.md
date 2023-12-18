@@ -48,7 +48,21 @@ I allows multiple versions of PS running, with separate environments. It has dif
 You can also split the window into separate panes. 
 
 ## Understanding Cmdlet Structure
+Some parameters are mandatory, some are optional. 
+```powershell
+# commandName -ParamName ParamValue ...
+Get-Service
+Get-Service -Name wuauserv          # show the status of a service
+Get-Service -Name wuauserv,wsearch  # show the status of multiple services
 
+# show the status of multiple services, from a remote computer
+Get-Service -Name wuauserv,wsearch -ComputerName LONDC1,LONSVR1
+```
+
+Positional parameters: do not need to supply their names, as long as you supply their values in the right position. For example, the "Name" param is positional in Get-Service command, while the "ComputerName" param is not positional, you have to supply its param name to the command. 
+```powershell
+Get-Service wuauserv,wsearch -ComputerName LONDC1,LONSVR1
+```
 
 ## Getting Help
 
