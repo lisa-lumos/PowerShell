@@ -65,46 +65,96 @@ Get-Service wuauserv,wsearch -ComputerName LONDC1,LONSVR1
 ```
 
 ## Getting Help
+```powershell
+# show everything at once, even if content is very long
+Get-Help Get-Service 
 
+# more commonly used
+# will not show everything at once, let you scroll to show more
+help Get-Service
+help Get-Service -Full
+help Get-Service -ShowWindow  # display in GUI
+help Get-Service -Examples
+
+# use admin to update cmd help
+# default help doesn't have much content,
+# because most people nowadays do not actually use it. 
+# but if you use it often, 
+# it is best practice to run it, whenever install new modules
+Update-Help
+
+# use wildcard
+help about*
+```
+
+In the syntax part of the docs, anything in the square brackets are optional. Some parameter name and value pairs are optional, some parameter name is optional, meaning it is a positional parameter. 
 
 ## Finding Commands
+There are many many commands available in PowerShell, so half of the battle is finding the command for the job, rather than writing a tool from scratch. 
 
+```powershell
+# shows help for each matched command
+help *user*
+
+# only show a list of matched command names/aliases/functions/executables
+Get-Command *user*
+
+# show a list of matched ones in a particular module
+Get-Command *user* -Module ActiveDirectory
+
+# Need internet access
+# Reaches out to the PowerShell library to search
+# this shows everything that is tagged as NTFS
+Find-Command -tag NTFS
+
+# this pops up a GUI for you to search through the list
+Show-Command
+Show-Command Get-Hotfix
+
+# to see if there are aliases defined for a command
+Get-Alias -Definition my_command
+
+# cleans the screen alias
+cls
+# read a file alias
+cat
+# ask help on a alias
+help cat
+# show who this alias is for
+Get-Command cat
+```
 
 ## Working with PowerShell Modules
+Modules adds new functionality to PowerShell. They are packaged, and can be downloaded from intranet, Github, etc. 
 
+The PowerShell gallery is the default location to search for new modules, but you can choose to register internal/external repositories that you trust. 
 
+Modules not only have to be installed to be able to use, they also have to be loaded into the current session. Since PS3, auto-loading got introduced, so the modules will load automatically for the user. 
 
+```powershell
+# shows what is currently loaded in the the session
+# not the ones that you have installed
+Get-Module  # in this case, the ActiveDirectory model is not loaded
 
+# this command is from the ActiveDirectory module
+Get-ADUser Administrator
 
+Get-Module  # now, it shows the ActiveDirectory model is loaded
 
+# List all the installed modules in your system
+Get-Module -ListAvailable
 
+# look for azure module, from the PowerShell gallery, via internet
+# returns the most recent version
+Find-Module Az
 
+# find all versions of this module
+Find-Module Az -AllVersions
 
+# install a module
+Install-Module Az
+```
 
+One of the benefits of installing modules in this way, is that we can keep them up-to-date in the same way, or un-install it. Thus it supports robust package management. 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+You can also browse the modules here: `powershellgallery.com`. There also displays how you can install a specific module. 
