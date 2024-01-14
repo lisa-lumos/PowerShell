@@ -98,21 +98,71 @@ Invoke-Command list {Get-VM | Measure-VM}
 ```
 
 ## PowerShell Comparison Operators
+For example:
+- `-eq`
+- `-ne`
+- `-gt`
+- `-lt`
+- `-ge`
+- `-le`
+- `-like`: can be used for partial match
+- `-notlike`: can be used for partial match
 
+```powershell
+5 -eq 4            # False
+"TEST" -like "TE*" # True
 
-
-
-
-
-
+# PS strings are not case sensitive
+# unless we tell it specifically to be case-sensitive
+"TEST" -like "test"   # True
+"TEST" -clike "test"  # False
+```
 
 ## Querying Active Directory
+Query the environments that still have an on-prem active directory setup. 
 
+```powershell
+# show the available capabilities that starts with RSAT
+Get-WindowCapability -Online -Name RSAT*
 
+# install a capability
+Add-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~0.0.1.0
+
+# shows prepackaged queries
+Search-ADAccount -AccountDisabled
+Search-ADAccount -AccountExpired
+Search-ADAccount -AccountInactive -DateTime '01/01/2024'
+Search-ADAccount -LockedOut
+Search-ADAccount -PasswordNeverExpires
+```
 
 ## Customizing AD Searches
+Get-AD* commands. 
+```powershell
+# Return every user
+Get-ADUser -Filter * 
 
+# search in specific locations, return a small set of properties for each user
+Get-ADUser -Filter * -SearchBase "OU=Marketing,DC=Adatum,DC=com"
 
+# specify what properties to return, and format to a table
+Get-ADUser -Filter * -SearchBase "OU=Marketing,DC=Adatum,DC=com" -Properties LastLogonDate,department | Format-Table name,LastLogonDate,department
+
+# to take a peek at the list of all properties
+Get-ADUser -Filter * -SearchBase "OU=Marketing,DC=Adatum,DC=com" -Properties *
+
+# search by user name
+Get-ADUser Lisa
+
+# search by filtering
+Get-ADUser -Filter {department -eq 'Marketing'}
+Get-ADUser -Filter {department -eq 'Marketing' -or department -eq 'Sales'}
+Get-ADUser -Filter {department -like '*i*'}
+
+# use an ldap filter
+Get-ADUser -LDAPFilter "(&(objectClass=user)(department=IT))"
+
+```
 
 ## Administering Active Directory
 
