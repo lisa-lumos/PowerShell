@@ -165,8 +165,27 @@ Get-ADUser -LDAPFilter "(&(objectClass=user)(department=IT))"
 ```
 
 ## Administering Active Directory
+```powershell
+Set-ADAccountPassword Lara -NewPassword (Read-Host -AsSecureString)
 
+# see a list of locked out users
+Search-ADAccount -LockedOut
+# unlock by username
+Unlock-ADAccount Williams
 
+# check a user's department property
+Get-ADUser Lara -Properties Department
+# change a user's department value
+Set-ADUser Lara -Department 'Sales'
+
+# below parameter doesn't exist
+Get-ADUser Lara -Properties carLicense
+# to add it: 
+Set-AdUser Lara -Add @{carLicense='ABC123'}
+# now have value for it:
+Get-ADUser Lara -Properties carLicense
+
+```
 
 ## Introduction to Azure PowerShell
 
