@@ -188,37 +188,28 @@ Get-ADUser Lara -Properties carLicense
 ```
 
 ## Introduction to Azure PowerShell
+Need to install module az. 
 
+```powershell
+Install-Module Az
 
+# see all the modules and commands within these modules
+Get-Command -Module Az.*
 
+# see how many commands there are
+Get-Command -Module Az.* | Measure
 
+# list all the virtual machines in this subscription
+Get-AzVm
 
+# shows which ones are running
+Get-AzVm -Status
 
+# What if you run this command
+Get-AzVm | Stop-AzVm -WhatIf
 
+# list all available VM sizes in a region
+Get-AzVMSize -Location westus
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Get-AzLocation
+```
