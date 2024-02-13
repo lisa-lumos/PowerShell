@@ -1,4 +1,66 @@
 # 4. PowerShell Pipeline
+## Pipeline intro
+The pipeline exist in any shell. 
+
+By far, most of the commands that are talked about are "single stage pipelines", as they are single commands. But, you can often take the results of that command, and pipe it to another command, and so on. 
+
+This is where this "lego-block mentality" came from. There are a lot of little commands that each do one thing, vs a monolithic command that do a million of things. 
+
+```powershell
+# see if both servers are online
+"Server1","Server2" | Test-NetConnection
+
+# get a list of all the VMs on a Hyper-v host, and turn on resource metering on all of them
+Get-VM | Enable-VMResourceMetering
+
+# 3 stages: 
+Get-ComputerInfo | ConvertTo-Html | Out-File report.html
+
+```
+
+These are still "one-liners".
+
+## Get member
+
+
+## Formatting pipeline output
+
+
+## Passing pipeline data by value
+
+
+## Passing pipeline data by property name
+
+
+## Using parentheses to change the order of operations
+
+
+## Measuring objects
+
+
+## Sorting objects
+
+
+
+
+## Selecting objects
+
+
+
+## Creating calculated properties using select-object
+
+
+
+
+## filtering objects
+
+
+
+
+## Enumerating objects
+
+
+
 
 ## Pipe output to files
 
