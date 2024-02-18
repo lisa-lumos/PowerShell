@@ -21,9 +21,35 @@ Get-ComputerInfo | ConvertTo-Html | Out-File report.html
 These are still "one-liners".
 
 ## Get member
+PowerShell produces objects in the pipeline, as opposed to text. 
 
+```powershell
+# will return the obj type, its methods, and its properties
+Get-ADUser Lara -Properties carLicense | Get-Member
+
+Get-ADUser Lara -Properties * | Get-Member
+
+# get a property's value of an object
+(Get-ADUser Lara -Properties *).carLicense
+
+# save this object into an variable, then access its properties
+$lara = Get-ADUser Lara -Properties *
+$lara.carLicense
+
+$lara.carLicense -eq $null # will return False
+$lara.Department -like 'IT*' # will return false
+```
 
 ## Formatting pipeline output
+
+
+
+
+
+
+
+
+
 
 
 ## Passing pipeline data by value
