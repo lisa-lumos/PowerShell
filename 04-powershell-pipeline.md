@@ -41,19 +41,59 @@ $lara.Department -like 'IT*' # will return false
 ```
 
 ## Formatting pipeline output
+Be aware that all of these formatting commands fundamentally change the nature of the object in the pipeline. So, for human to view the formatted results, always format it at the end of the pipeline. You cannot do anything to the formatted results anymore. 
 
+The only exception is to use Out commands (to a file, to print, to null, etc) after the format commands, because the former doesn't try to interpret what is in the pipeline. 
 
+```powershell
+# Returns the result as a list by default
+Get-ADUser - Filter {Department -eql 'IT'}
 
+# Return the selected properties in a list
+Get-ADUser - Filter {Department -eql 'IT'} | Format-List Name, GivenName, Surname, Enabled
 
+# Return the selected properties in a table
+Get-ADUser - Filter {Department -eql 'IT'} | Format-Table Name, GivenName, Surname, Enabled
 
+# Format-Wide can only return one single property
+Get-ADUser - Filter {Department -eql 'IT'} | Format-Wide Name
 
+# Do not do this: 
+# Return the selected properties in a table, then port them to a csv file
+# It appears to return a bunch of random information
+# of formatting instructions
+Get-ADUser - Filter {Department -eql 'IT'} | Format-Table Name, GivenName, Surname, Enabled | Export-CSV C:\PS\users.csv
 
-
-
-
+```
 
 ## Passing pipeline data by value
+There are two ways to pass data down the pipeline to another command:
+1. By value
+2. By property name
 
+```powershell
+# it shows the ComputerName parameter accept pipeline input, 
+# both ByValue and ByPropertyName
+help Test-NetConnection -full
+
+# test connection of the two computers
+'LONDC1','LONSVR1' | Test-NetConnection
+
+```
+
+Assume "c:\ps\computers.txt" contains: 
+```
+LONDC1
+LONSVR1
+LONCLI1
+```
+
+To test connection for them:
+```powershell
+cd c:\ps
+Get-Content .\computers.txt | Test-NetConnection
+
+```
 
 ## Passing pipeline data by property name
 
