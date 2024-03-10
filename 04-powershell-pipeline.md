@@ -96,10 +96,54 @@ Get-Content .\computers.txt | Test-NetConnection
 ```
 
 ## Passing pipeline data by property name
+Assume "c:\ps\computers.csv" contains: 
+```
+ComputerName
+LONDC1
+LONSVR1
+LONCLI1
+```
 
+```powershell
+# see it has a property called ComputerName
+Import-CSV .\computers.csv | Get-Member
+
+# shows this parameter accept input by ByPropertyName,
+# and it accepts the parameter input as a string
+help Test-NetConnection -Parameter ComputerName
+
+# it tests the connection of each row in the csv as ComputerName value
+Import-CSV .\computers.csv | Test-NetConnection
+
+```
+
+Assume "c:\ps\computers.csv" contains: 
+```
+ComputerName,Port
+LONDC1,88
+LONSVR1,445
+LONCLI1,135
+```
+
+```powershell
+# it tests the connection of each row in the csv as ComputerName value, and Port value
+Import-CSV .\computers.csv | Test-NetConnection
+
+```
+
+If the csv col name and the property name in the command doesn't exact match, it will return an error, because the bindings doesn't work. We can rename the properties in the pipeline to fix it. 
+```powershell
+# shows the computers have a Name property, but no ComputerName property
+Get-ADComputer -Filter *
+```
 
 ## Using parentheses to change the order of operations
+```powershell
+# example:
+(Get-NetIPAddress -InterfaceAlias Ethernet -AddressFamily IPv4).IPAddress
 
+Test-Connection -ComputerName (Get-Content .\computers.txt)
+```
 
 ## Measuring objects
 
