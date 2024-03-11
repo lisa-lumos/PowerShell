@@ -146,12 +146,39 @@ Test-Connection -ComputerName (Get-Content .\computers.txt)
 ```
 
 ## Measuring objects
+```powershell
+# count how many objects from the pipeline
+Get-ADUser - Filter {Department -eql 'IT'} | Measure-Object
 
+# get the number of processes
+Get-Process | Measure-Object
+
+# aggregate the numeric values of the WS property in these objects
+Get-Process | Measure-Object -Property WS -Sum -Average -Maximum -Minimum
+
+```
 
 ## Sorting objects
+```powershell
+Get-Process
 
+# sort the processes by id number, in ascending order
+Get-Process | Sort-Object ID
 
+# sort the processes by id number, in descending order
+Get-Process | Sort-Object ID -Descending
 
+# sort the processes by id number, in descending order, only see unique ones
+Get-Process | Sort-Object ID -Descending -Unique
+
+# sort the processes by process name, then by ID number
+Get-Process | Sort-Object ProcessName,ID
+
+# sort the processes by process name ascending, then by ID number descending 
+# (use 2 hash tables to make it work)
+Get-Process | Sort-Object @{Expression='ProcessName';Descending=$false},@{Expression='ID';Descending=$true}
+
+```
 
 ## Selecting objects
 
