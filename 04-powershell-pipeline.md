@@ -181,11 +181,32 @@ Get-Process | Sort-Object @{Expression='ProcessName';Descending=$false},@{Expres
 ```
 
 ## Selecting objects
+Index in powershell always start at 0. 
+```powershell
+# select the first 5 items in the pipeline
+Get-Process | Sort-Object @{Expression='ProcessName';Descending=$false},@{Expression='ID';Descending=$true} | Select -first 5
 
+# select the last 5 items in the pipeline
+Get-Process | Sort-Object @{Expression='ProcessName';Descending=$false},@{Expression='ID';Descending=$true} | Select -last 5
 
+# select the 11th item in the pipeline (idx starts from 0)
+Get-Process | Sort-Object @{Expression='ProcessName';Descending=$false},@{Expression='ID';Descending=$true} | Select -index 10
+
+# select the first 3 items in the pipeline (idx starts from 0)
+Get-Process | Sort-Object @{Expression='ProcessName';Descending=$false},@{Expression='ID';Descending=$true} | Select -index 0, 1, 2
+
+# select specific properties from the pipeline objects
+Get-ADUser -Filter {department -like 'M*'} | Select GivenName,SurName
+Get-ADUser -Filter {department -like 'M*'} -Properties department | Select GivenName,SurName,department
+Get-ADUser -Filter {department -like 'M*'} -Properties department,memberOf | Select GivenName,SurName,department,memberOf
+
+# get the data associated with the objects
+Get-ADUser -Filter {department -like 'M*'} -Properties memberOf | Select -ExpandProperty memberOf
+Get-ADUser Administrator -Properties memberOf | Select -ExpandProperty memberOf
+
+```
 
 ## Creating calculated properties using select-object
-
 
 
 
