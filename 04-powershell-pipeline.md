@@ -207,53 +207,86 @@ Get-ADUser Administrator -Properties memberOf | Select -ExpandProperty memberOf
 ```
 
 ## Creating calculated properties using select-object
+```powershell
+# get the top 5 processes based on working set properties value
+# by default, it shows the number in bytes
+Get-Process | Sort -Descending WS | Select -First 5 ProcessName,WS
 
+# Create a new calculated property, named WS(MB),
+# $_ means the current object, can also use $PSItem as current obj
+Get-Process | Sort -Descending WS | Select -First 5 ProcessName,@{Label='WS(MB)';Expression={$_.WS/1MB}}
 
+```
 
 ## filtering objects
+Filter as far to the left as possible in the pipeline, for efficiency. 
+```powershell
+# filter using the "basic syntax"
+Get-Service | Where-Object Status -eq Running
 
+# filter using the "advanced syntax"
+# which allows for multiple conditions
+Get-Service | Where-Object {$_.Status -eq 'Running' -and $_.Name -like '*win*'}
 
+# 1st command is less performant than the 2nd,
+# because 2nd one uses early filtering
+Measure-Command {Get-ADUser -Filter * -prop department | Where-Object {$_.department -like 'IT*'}}
+Measure-Command {Get-ADUser -Filter {department -like '*IT'}}
 
+```
 
 ## Enumerating objects
+The basic syntax has limited functionalities. 
 
+```powershell
+# basic enumeration syntax
+# returns 1 through 5
+1..5
 
+# for each hot fix in the pipeline, return its id
+Get-Hotfix | ForEach-Object HotfixID
 
+# for each number, multiply by 2
+1..5 | ForEach-Object {Write-Host "Doubling $_"; $_ * 2}
+
+```
 
 ## Pipe output to files
+```powershell
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com"
 
-Output to a text file (Easy for a person to read, but not easy to pull back into PowerShell):
+# output as table
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Format-Table
 
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com"`
+# Output to a text file,
+# Easy for a person to read
+# but not easy to pull back into PowerShell:
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Format-Table | Out-File C:\PS\marketing.txt
 
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Format-Table`
+# If want to work with these contents later on, 
+# could output as csv, JSON, XML format:
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Export-CSV marketing.csv
 
+# To not have the first row that starts with # in the previous csv:
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Export-CSV marketing.csv -NoTypeInformation
 
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Format-Table | Out-File C:\PS\marketing.txt`
+# select a few cols
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" |Select Name,enabled | Export-CSV marketing.csv -NoTypeInformation
 
-`nodepad .\marketing.txt`
+# Later can import it back to PS. 
+# Problem with csv is that it is 2D, 
+# if want memberOf property (which is multi valued) in csv,
+# The exported file only has a placeholder, 
+# for the group membership, for the column. 
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | Export-CSV marketing.csv -NoTypeInformation
 
-If want to work with these contents later on, could output as csv, JSON, XML format:
+# To import it in the future, you have lost this membership info. 
+# So, need to use a hierarchy format like JSON or XML.
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | Export-CLIXML marketing.xml
 
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Export-CSV marketing.csv`
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | ConvertTo-JSON
 
-`nodepad .\marketing.csv`
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | ConvertTo-Html
 
-To not have the first row that starts with # in previous csv:
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" | Export-CSV marketing.csv -NoTypeInformation`
-
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" |Select Name,enabled | Export-CSV marketing.csv -NoTypeInformation`
-
-Later can import it back to PS. Problem with csv is that it is 2D, if want memberOf property (which is multi valued) in csv:
-
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | Export-CSV marketing.csv -NoTypeInformation`
-
-The exported file only has a placeholder for the group membership for the column. If you want to import it in the future, you have lost this membership info. So, need to use a hierarchy format like JSON or XML.
-
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | Export-CLIXML marketing.xml`
-
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | ConvertTo-JSON`
-
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | ConvertTo-Html`
-
-`Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | ConvertTo-Html | Out-File marketing.html`
+Get-ADuser -Filter * -SearchBase "OU=Marketing, DC=Adatum, DC=Com" -Properties memberOf |Select Name,enabled,memberOf | ConvertTo-Html | Out-File marketing.html
+```
