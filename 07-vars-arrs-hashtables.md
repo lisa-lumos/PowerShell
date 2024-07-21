@@ -122,7 +122,36 @@ To work with individual properties and methods inside a variable:
 ```
 
 ## Strings
+```powershell
+$string = "This is a string"
 
+# show methods associated with strings
+$string | Get-Member
+
+# insert a substr to a str, at idx num 9, starting from 0
+$string.Insert(9, ' short')
+
+# get the substring of idx [0, 3), 1st args is starting idx, 2nd is length
+$string.Substring(0, 3)
+
+# rmv a substr from str, starting from idx 5, length 4
+$string.Remove(5, 4)
+
+# split a str based on space
+$string.Split()
+
+# split a str based on dot
+$string.Split('.')
+
+# split a str based on dot, then join them back
+$string.Split('.') -join '.'
+
+# replace a substr with another substr
+$string.Replace('s', '$$$')
+
+# rmv leading and trailing spaces
+$string.Trim()
+```
 
 ## Dates
 
